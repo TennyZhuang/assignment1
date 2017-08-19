@@ -4,11 +4,11 @@ class Node(object):
     """Node in a computation graph."""
     def __init__(self):
         """Constructor, new node is indirectly created by Op object __call__ method.
-            
+
             Instance variables
             ------------------
             self.inputs: the list of input nodes.
-            self.op: the associated op object, 
+            self.op: the associated op object,
                 e.g. add_op object if this node is created by adding two other nodes.
             self.const_attr: the add or multiply constant,
                 e.g. self.const_attr=5 if this node is created by x+5.
@@ -37,11 +37,11 @@ class Node(object):
     __rmul__ = __mul__
 
     def __str__(self):
-        """Allow print to display node name.""" 
+        """Allow print to display node name."""
         return self.name
 
 def Variable(name):
-    """User defined variables in an expression.  
+    """User defined variables in an expression.
         e.g. x = Variable(name = "x")
     """
     placeholder_node = placeholder_op()
@@ -52,7 +52,7 @@ class Op(object):
     """Op represents operations performed on nodes."""
     def __call__(self):
         """Create a new node and associate the op object with the node.
-        
+
         Returns
         -------
         The new node object.
@@ -186,7 +186,7 @@ class MatMulOp(Op):
 
     def gradient(self, node, output_grad):
         """Given gradient of multiply node, return gradient contributions to each input.
-            
+
         Useful formula: if Y=AB, then dA=dY B^T, dB=A^T dY
         """
         """TODO: Your code here"""
@@ -251,7 +251,7 @@ oneslike_op = OnesLikeOp()
 zeroslike_op = ZerosLikeOp()
 
 class Executor:
-    """Executor computes values for a given subset of nodes in a computation graph.""" 
+    """Executor computes values for a given subset of nodes in a computation graph."""
     def __init__(self, eval_node_list):
         """
         Parameters
@@ -268,7 +268,7 @@ class Executor:
 
         Returns
         -------
-        A list of values for nodes in eval_node_list. 
+        A list of values for nodes in eval_node_list.
         """
         node_to_val_map = dict(feed_dict)
         # Traverse graph in topological sort order and compute values for all nodes.
@@ -311,13 +311,13 @@ def gradients(output_node, node_list):
     return grad_node_list
 
 ##############################
-####### Helper Methods ####### 
+####### Helper Methods #######
 ##############################
 
 def find_topo_sort(node_list):
     """Given a list of nodes, return a topological sort list of nodes ending in them.
-    
-    A simple algorithm is to do a post-order DFS traversal on the given nodes, 
+
+    A simple algorithm is to do a post-order DFS traversal on the given nodes,
     going backwards based on input edges. Since a node is added to the ordering
     after all its predecessors are traversed due to post-order DFS, we get a topological
     sort.
